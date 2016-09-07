@@ -4,8 +4,7 @@
 #include <sys/sem.h>
 
 int main(int argc, char **argv) {
-    pid_t pid;
-    int status, id;
+    int id;
     char *prog;
     struct sembuf wait_op = {0, -1, SEM_UNDO};
     union semun {
@@ -38,25 +37,7 @@ int main(int argc, char **argv) {
         err_msg = "semop";
         goto err;
     }
-    if ((pid = fork()) < 0) {
-        err_msg = "fork";
-        goto err;
-    }
-    if (pid == 0) {
-        //According to C standard, argv[argc] is always NULL
-        if (execvp(prog, &argv[1]) < 0) {
-            err_msg = "exec";
-            goto err;
-        }
-    }
-    if (waitpid(pid, &status, 0) < 0) {
-        err_msg = "wait";
-        goto err;
-    }
-    if (WIFEXITED(status)) {
-        return WEXITSTATUS(status);
-    }
-    return 0;
+    return execvp(prog, &argv[1]);
 
  err:
     fprintf(stderr, "%s err\n", err_msg);

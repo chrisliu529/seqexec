@@ -28,8 +28,8 @@ int main(int argc, char **argv) {
             err_msg = "semget";
             goto err;
         }
-		semctl_arg.val = 1;
-		if (semctl(id, 0, SETVAL, semctl_arg) < 0) {
+        semctl_arg.val = 1;
+        if (semctl(id, 0, SETVAL, semctl_arg) < 0) {
             err_msg = "sem setval";
             goto err;
         }

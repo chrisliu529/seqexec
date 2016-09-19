@@ -1,14 +1,14 @@
 #!/bin/bash
 
 shmid=`./alloc`
-total=2000000000
-step=10000000
+total=200000000
+step=1000000
 for (( i=0; i<$total; i+=$step )); do
     ./seqexec ./inc $shmid $step &
 done
-sleep 20
+sleep 10
 n=`./read $shmid`
-./dealloc $shmid
+ipcrm -m $shmid
 if [ "$total" == "$n" ]; then
     echo "test ok"
     exit 0

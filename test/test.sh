@@ -4,7 +4,7 @@ shmid=`./alloc`
 total=200000000
 step=1000000
 for (( i=0; i<$total; i+=$step )); do
-    ./seqexec ./inc $shmid $step &
+    ./seqexec --key=test ./inc $shmid $step &
 done
 sleep 10
 n=`./read $shmid`
